@@ -1,0 +1,38 @@
+﻿@model MicroPost.Models.PostModel
+
+@{
+    ViewBag.Title = "Micro Post | My Posts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bodycontent">
+    <h2>My Posts</h2>
+    <hr />
+
+    <table class="table table-striped">
+
+        @if (Model != null && Model.Posts.Count() > 0) {
+            <thead>
+                <tr>
+                    <th>Post</th>
+                    <th>Post Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model.Posts) {
+                    <tr>
+                        <td>@post.PostText</td>
+                        <td>@(post.IsPublicPost == true ? "Public" : "Private")</td>
+                    </tr>
+                }
+            </tbody>
+        } else {
+            <tbody>
+                <tr>
+                    <td>No post(s) posted yet!</td>
+                </tr>
+            </tbody>
+        }
+
+    </table>
+</div>

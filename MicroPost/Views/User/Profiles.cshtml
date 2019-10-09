@@ -1,0 +1,45 @@
+﻿@model MicroPost.Models.UserModel
+
+@{
+    ViewBag.Title = "Micro Post | Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="bodycontent">
+    <h2>Profile</h2>
+    <hr />
+
+    @if (Model.User != null && Model.User.UserId > 0) {
+
+        <span>Welcome to </span>@Model.User.Name<span>'s profile.</span>
+        <hr />
+        <h4>@Model.User.Name's Posts</h4>
+        <hr />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Post</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Posts.Count() > 0) {
+
+                    foreach (var post in Model.Posts) {
+                        <tr>
+                            <td>@post.PostText</td>
+                        </tr>
+                    }
+
+                } else {
+                    <tr>
+                        <td>No post(s) from this user.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } else {
+        <span>Sorry, user with the provided id doesn't exist! </span>
+    }
+</div>

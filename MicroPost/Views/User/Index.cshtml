@@ -1,0 +1,53 @@
+﻿@model PagedList.IPagedList<MicroPost.DataModel.User>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Micro Post | Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bodycontent">
+    <h2>Registered Users</h2>
+    <hr />
+
+    @using (Html.BeginForm("Index", "User", FormMethod.Get)) {
+        <p>
+            Search Name: @Html.TextBox("searchText", ViewBag.FilterValue as string)
+            <input type="submit" value="Find" />
+        </p>
+    }
+
+    <table class="table table-striped">
+
+        @if (Model != null && Model.Count() > 0) {
+            <thead>
+                <tr>
+                    <th>@Html.ActionLink("Name", "Index", "User", new { sortingOrder = "Name", filterValue = ViewBag.FilterValue }, null)</th>
+                    <th>@Html.ActionLink("Email", "Index", "User", new { sortingOrder = "Email", filterValue = ViewBag.FilterValue }, null)</th>
+                    <th>@Html.ActionLink("Address", "Index", "User", new { sortingOrder = "Address", filterValue = ViewBag.FilterValue }, null)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model) {
+                    <tr>
+                        <td>@Html.ActionLink(user.Name, "Profiles", "User", new { id = user.UserId }, null)</td>
+                        <td>@user.Email</td>
+                        <td>@user.Address</td>
+                    </tr>
+                }
+            </tbody>
+        } else {
+            <tbody>
+                <tr>
+                    <td colspan="4">No user(s) registered yet!</td>
+                </tr>
+            </tbody>
+        }
+
+    </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, pageNo => Url.Action("Index", new { pageNo, sortingOrder = ViewBag.CurrentSortOrder, filterValue = ViewBag.FilterValue }))
+</div>

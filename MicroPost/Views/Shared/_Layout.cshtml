@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/User/Index">Micro Post</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav" style="float:right">
+                    @if (Request.IsAuthenticated) {
+                        <li>@Html.ActionLink("New Post", "Index", "Post", null, null)</li>
+                        <li>@Html.ActionLink("My Posts", "MyPosts", "Post")</li>
+                        <li>@Html.ActionLink("My Profile", "Profiles", "User", new { id = User.Identity.Name }, null)</li>
+                        <li>@Html.ActionLink("Edit Profile", "EditProfile", "User")</li>
+                        <li>@Html.ActionLink("Log Out", "Logout", "User")</li>
+                    } else {
+                        <li>@Html.ActionLink("Register", "Register", "User")</li>
+                        <li>@Html.ActionLink("Log In", "Login", "User")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @RenderSection("scripts", required: false)
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+﻿@model MicroPost.Models.PostModel
+
+@{
+    ViewBag.Title = "Micro Post | Add Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bodycontent">
+    <h2>Post New Post</h2>
+    <hr />
+
+    @using (@Html.BeginForm()) {
+        @Html.ValidationSummary(true, "Post failed.");
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(p => p.PostText, new { @for = "post" })
+                @Html.TextAreaFor(p => p.PostText, new { @class = "form-control", @rows = "4", @id = "post" })
+                @Html.ValidationMessageFor(p => p.PostText)
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("Post Type: ", new { @for = "rbPostType" })
+                @Html.RadioButtonFor(p => p.IsPublicPost, "true") <span>Public</span>
+                @Html.RadioButtonFor(p => p.IsPublicPost, "false") <span>Private</span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" value="Post" class="btn btn-success" />
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <span class="label-success">@ViewBag.Error</span>
+            </div>
+        </div>
+    }
+
+    @if (Model != null && Model.Posts.Count() > 0) {
+
+        <hr />
+
+        <h2>All Recent Posts (Only show public posts)</h2>
+
+        <hr />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Post</th>
+                    <th>Post Type (Only public)</th>
+                    <th>Post By</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model.Posts) {
+                    <tr>
+                        <td>@post.PostText</td>
+                        <td>@(post.IsPublicPost == true ? "Public" : "Private")</td>
+                        <td>@Html.ActionLink(post.User.Name, "Profiles", "User", new { id = post.UserId }, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
